@@ -46,6 +46,7 @@
         tipContainer.style.color = 'white';
         tipContainer.style.padding = '5px';
         tipContainer.style.borderRadius = '5px';
+        tipContainer.style.fontSize = '50px';
 
         document.body.appendChild(tipContainer);
 
