@@ -1,0 +1,59 @@
+// ==UserScript==
+// @name         Navi Bot for Hyruleguessr
+// @namespace    http://tampermonkey.net/
+// @version      1.2
+// @description  Enhanced HyruleGuessr with additional strategies and tips for location guessing.
+// @author       Stuntrule
+// @match        https://hyruleguessr.com/*
+// @grant        none
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+    // Tips for Location Guessing
+    const tips = [
+        "Rocks found in the Gerudo Desert and elevated areas east of it are yellow.",
+        "Mountain areas feature yellow-orange rocks with snow.",
+        "Gerudo Highlands have red rocks with white stripes and snow.",
+        "Faron region has red-orange rocks.",
+        "Green rocks are east of the Mounted Archery Camp and near Hyrule Castle.",
+        "Yellow rocks are around Skull Lake, Tabantha, and Ridgeland.",
+        "Red rocks are in Eldin and around the North Lomei Labyrinth.",
+        "Hebra and Mount Lanayru feature light blue (ice) rocks.",
+        "Lanayru region has gray rocks with a blue tint.",
+        "Fog appears in Hebra, the Lost Woods, and Typhlo Ruins.",
+        "Thin trees in Hebra have snow on their leaves.",
+        "Short trees with leaves only on top are found in the Gerudo Desert, south of Gerudo Town, Kara Kara Bazaar, and Faron region.",
+        "Akkala has yellow, green, orange, or red trees.",
+        "Tall, wide trees with many leaves are typical in Faron.",
+        "Korok Forest features trees similar to Hebra without snow.",
+        "Palm trees grow on the south coast and Eventide.",
+        "Dark green grass is in Akkala and Ridgeland.",
+        "Regular green grass is in Central Hyrule and Hateno.",
+        "Yellow grass grows south of Eldin."
+    ];
+
+    // Function to display tips randomly every 20-60 seconds
+    function showRandomTip() {
+        const randomTip = tips[Math.floor(Math.random() * tips.length)];
+        const tipContainer = document.createElement('div');
+        tipContainer.textContent = randomTip;
+        tipContainer.style.position = 'absolute';
+        tipContainer.style.bottom = '10px';
+        tipContainer.style.right = '10px';
+        tipContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+        tipContainer.style.color = 'white';
+        tipContainer.style.padding = '5px';
+        tipContainer.style.borderRadius = '5px';
+
+        document.body.appendChild(tipContainer);
+
+        setTimeout(() => {
+            document.body.removeChild(tipContainer);
+        }, 10000); // Tip disappears after 10 seconds
+    }
+
+    // Show a random tip every 20-60 seconds
+    setInterval(showRandomTip, Math.floor((Math.random() * 15) + 15) * 1000); // Random delay between 15-30 seconds
+})();
