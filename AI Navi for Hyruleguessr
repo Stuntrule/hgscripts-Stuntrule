@@ -41,7 +41,7 @@
         tipContainer.textContent = randomTip;
         tipContainer.style.position = 'absolute';
         tipContainer.style.bottom = '10px';
-        tipContainer.style.right = '10px';
+        tipContainer.style.left = '10px';
         tipContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
         tipContainer.style.color = 'white';
         tipContainer.style.padding = '5px';
