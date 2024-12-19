@@ -1,0 +1,76 @@
+// ==UserScript==
+// @name         Hyruleguessr Speedrun Combo GAMES, PERFECTS & AVG
+// @version      0.1
+// @description  Game counter for speedruns.
+// @author       Stuntrule (credit to achow for some code)
+// @match        https://hyruleguessr.com/*
+// ==/UserScript==
+
+(function() {
+    "use strict";
+    const URL = "https://hyruleguessr.com/game";
+    let counted = false;
+    let perfcounted = false;
+    let avgcounted = false;
+    let totalGames = 0;
+    let totalScore = 0;
+    let game = 0;
+    let average = 0;
+    let perfgame = 0;
+    let score = 0;
+    let gameText = document.createElement("h5"); // create game counter
+    gameText.innerText = `Perfect Games: ${perfgame} Games: ${game} Average Score: ${average}`;
+    gameText.style.color = "white";
+    document.querySelector(".navbar").insertAdjacentElement("afterend", gameText);
+
+    function calculateAverage() {
+        average = totalGames > 0 ? Math.round(totalScore / totalGames) : 0;
+    }
+
+    function run() {
+        if (!window.location.href.startsWith(URL)) return;
+
+        // Select buttons
+        const replay_div = document.querySelector(".replay-container");
+        const start_game_div = document.querySelector(".start-game-btn-container");
+
+        if (start_game_div) {
+            counted = false; // set "counted" to false if new game
+            perfcounted = false;
+            avgcounted = false;
+        }
+        else if (replay_div) { // if end of game
+            let score_div = document.querySelector(".total-container");
+            if (!perfcounted && score_div && score_div.innerText.match(/\d+/g)[0] == 25000) { // if perfect, update game number
+                perfgame++;
+                perfcounted = true
+            }
+            if (!counted && score_div) { // if perfect, update game number
+                game++;
+                counted = true
+                score = parseInt(score_div.innerText.match(/\d+/)[0], 10); // Extract score
+                if (!isNaN(score)) {
+                    totalGames++;
+                    totalScore += score;
+                    calculateAverage();
+                    avgcounted = true; // Prevent double counting of games
+                }
+            }
+            gameText.innerText = `Perfect Games: ${perfgame} Games: ${game} Average Score: ${average}`;
+        }
+    }
+
+    // Handle key press
+    addEventListener("keydown", e => {
+        run();
+        if (e.key === "r") { // reset game number if r is pressed
+            game = 0;
+            perfgame = 0;
+            score = 0;
+            gameText.innerText = `Perfect Games: ${perfgame} Games: ${game} Average Score: ${average}`
+        };
+    });
+
+    // Handle clicks
+    addEventListener("click", run)
+})();
